@@ -5,14 +5,6 @@ public struct Bit16 {
         Bit, Bit, Bit, Bit,
         Bit, Bit, Bit, Bit
     )
-    static var allOff = Bit16(
-        bits: (
-            .off, .off, .off, .off,
-            .off, .off, .off, .off,
-            .off, .off, .off, .off,
-            .off, .off, .off, .off
-        )
-    )
 }
 
 extension Bit16: BooleanLogic {
@@ -41,6 +33,15 @@ extension Bit16: BooleanLogic {
             )
         )
     }
+    
+    public static var allOff = Bit16(
+        bits: (
+            .off, .off, .off, .off,
+            .off, .off, .off, .off,
+            .off, .off, .off, .off,
+            .off, .off, .off, .off
+        )
+    )
 }
 
 extension Bit16 {

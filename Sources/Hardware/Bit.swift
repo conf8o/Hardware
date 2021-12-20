@@ -10,4 +10,6 @@ extension Bit: BooleanLogic {
             return .on
         }
     }
+    
+    public static var allOff: Bit { .off }
 }

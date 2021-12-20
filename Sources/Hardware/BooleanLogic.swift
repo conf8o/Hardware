@@ -1,5 +1,6 @@
 public protocol BooleanLogic {
     static func nand(_ a: Self, _ b: Self) -> Self
+    static var allOff: Self { get }
 }
 
 extension BooleanLogic {

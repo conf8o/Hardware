@@ -4,7 +4,7 @@ public enum ALU {
         return Bit16.mux(_a, Bit16.not(_a), neg)
     }
     
-    public static func exec(
+    public static func call(
         _ x: Bit16, _ y: Bit16,
         _ zeroX: Bit, _ negX: Bit,
         _ zeroY: Bit, _ negY: Bit,
