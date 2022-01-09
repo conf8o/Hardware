@@ -1,9 +1,9 @@
-public struct Register<B: BooleanLogic> {
-    var load: B = .allOff
+public struct Register<B: BooleanLogic & Mux> {
+    var load: Bit = .allOff
     var flipflop = FlipFlop<B>()
     
-    public mutating func call(_ a: B, _ load: B) -> B {
+    public mutating func access(_ a: B, _ load: Bit) -> B {
         defer { self.load = load }
-        return flipflop.flipflop(a: B.mux(a, flipflop.state, self.load))
+        return flipflop.flipflop(B.mux(a, flipflop.state, self.load))
     }
 }

@@ -19,15 +19,9 @@ extension BooleanLogic {
     public static func xor(_ a: Self, _ b: Self) -> Self {
         Self.and(Self.nand(a, b), Self.or(a, b))
     }
+
+    public static func xnor(_ a: Self, _ b: Self) -> Self {
+        Self.not(Self.xor(a, b))
+    }
 }
 
-extension BooleanLogic {
-    public static func mux(_ a: Self, _ b: Self, _ sel: Self) -> Self {
-        Self.xor(Self.and(a, Self.not(sel)),
-                 Self.and(b, sel))
-    }
-    
-    public static func dmux(_ _in: Self, _ sel: Self) -> (a: Self, b: Self) {
-        (a: Self.and(_in, Self.not(sel)), b: Self.and(_in, sel))
-    }
-}
