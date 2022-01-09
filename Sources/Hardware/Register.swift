@@ -1,5 +1,5 @@
 public struct Register<B: BooleanLogic & Mux> {
-    var load: Bit = .allOff
+    var load: Bit = .off
     var flipflop = FlipFlop<B>()
     
     public mutating func access(_ a: B, _ load: Bit) -> B {
