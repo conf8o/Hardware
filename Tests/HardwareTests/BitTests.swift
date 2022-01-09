@@ -7,7 +7,7 @@ extension Bit: ExpressibleByIntegerLiteral {
     }
 }
 
-final class BitNandTests: XCTestCase {
+final class BitTests: XCTestCase {
     func testNand() throws {
         XCTAssertEqual(1, Bit.nand(0, 0))
         XCTAssertEqual(1, Bit.nand(0, 1))

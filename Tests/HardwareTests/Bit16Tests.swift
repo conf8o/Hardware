@@ -27,7 +27,7 @@ extension Bit16: Equatable {
     }
 }
 
-final class Bit16NandTests: XCTestCase {
+final class Bit16Tests: XCTestCase {
     func testNand() throws {
         let a = Bit16(bits: (.off, .off, .on, .on,
                              .off, .off, .off, .off,
@@ -58,5 +58,19 @@ final class Bit16NandTests: XCTestCase {
                                   .off, .off, .off, .off,
                                   .off, .off, .off, .off))
         XCTAssertEqual(expect, Bit16.xor(a, b))
+    }
+
+    func testMux8() throws {
+        let a = Bit16(bits: (.off, .off, .on, .on,
+                             .off, .off, .off, .off,
+                             .off, .off, .off, .off,
+                             .off, .off, .off, .off))
+        let b = Bit16(bits: (.off, .on, .off, .on,
+                             .off, .off, .off, .off,
+                             .off, .off, .off, .off,
+                             .off, .off, .off, .off))
+        XCTAssertEqual(a, Bit16.mux8(a, b, b, b, b, b, b, b, Bit3(bits: (.off, .off, .off))))
+        XCTAssertEqual(a, Bit16.mux8(b, b, b, a, b, b, b, b, Bit3(bits: (.off, .on, .on))))
+        XCTAssertEqual(a, Bit16.mux8(b, b, b, b, b, b, b, a, Bit3(bits: (.on, .on, .on))))
     }
 }
