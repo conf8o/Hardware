@@ -20,7 +20,7 @@ extension Bit: Mux {
                 Bit.and(b, sel))
     }
     
-    public static func dmux(_ _in: Bit, _ sel: Bit) -> (a: Bit, b: Bit) {
-        (a: Bit.and(_in, Bit.not(sel)), b: Bit.and(_in, sel))
+    public static func dmux(_ a: Bit, _ sel: Bit) -> (a: Bit, b: Bit) {
+        (a: Bit.and(a, Bit.not(sel)), b: Bit.and(a, sel))
     }
 }

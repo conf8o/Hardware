@@ -72,5 +72,5 @@ final class Bit16Tests: XCTestCase {
         XCTAssertEqual(a, Bit16.mux8(a, b, b, b, b, b, b, b, Bit3(bits: (.off, .off, .off))))
         XCTAssertEqual(a, Bit16.mux8(b, b, b, a, b, b, b, b, Bit3(bits: (.off, .on, .on))))
         XCTAssertEqual(a, Bit16.mux8(b, b, b, b, b, b, b, a, Bit3(bits: (.on, .on, .on))))
-    }
+    }   
 }
