@@ -1,5 +1,5 @@
 public enum DMux8 {
-     public static func dmux8(_ a: Bit, _ sel: Bit3) 
+    public static func dmux8(_ a: Bit, _ sel: Bit3) 
     -> (a: Bit, b: Bit, c: Bit, d: Bit, e: Bit, f: Bit, g: Bit, h: Bit)
     {
         (
