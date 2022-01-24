@@ -62,7 +62,7 @@ extension Bit16: Mux {
     }
 }
 
-extension Bit16 {
+extension Bit16: Mux8 {
     public static func mux8(
         _ a: Bit16, _ b: Bit16, _ c: Bit16, _ d: Bit16,
         _ e: Bit16, _ f: Bit16, _ g: Bit16, _ h: Bit16,

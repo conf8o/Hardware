@@ -7,7 +7,7 @@ public struct RAM8 {
     )
 
     public mutating func access(_ a: Bit16, _ address: Bit3, _ load: Bit) -> Bit16 {
-        let loadBits = DMux8.dmux8(load, address)
+        let loadBits = Bit.dmux8(load, address)
         return Bit16.mux8(
             registers.0.access(a, loadBits.a), 
             registers.1.access(a, loadBits.b), 
