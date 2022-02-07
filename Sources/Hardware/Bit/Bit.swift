@@ -11,7 +11,7 @@ extension Bit: BooleanLogic {
         }
     }
     
-    public static var allOff: Bit { .off }
+    public static var allOff: Bit = .off
 }
 
 extension Bit: Mux, DMux {
