@@ -25,6 +25,17 @@ extension Bit: Mux, DMux {
     }
 }
 
+extension Bit: DMux4 {
+    public static func dmux4(_ a: Bit, _ sel: Bit2) -> (a: Bit, b: Bit, c: Bit, d: Bit) {
+        (
+            a: Bit.and(a, Bit2.xnor(sel, Bit2(bits: (.off, .off))).all()),
+            b: Bit.and(a, Bit2.xnor(sel, Bit2(bits: (.off, .on))).all()),
+            c: Bit.and(a, Bit2.xnor(sel, Bit2(bits: (.on, .off))).all()),
+            d: Bit.and(a, Bit2.xnor(sel, Bit2(bits: (.on, .on))).all())
+        )
+    }
+}
+
 extension Bit: DMux8 {
     public static func dmux8(_ a: Bit, _ sel: Bit3) 
     -> (a: Bit, b: Bit, c: Bit, d: Bit, e: Bit, f: Bit, g: Bit, h: Bit)

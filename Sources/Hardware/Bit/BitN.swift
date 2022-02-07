@@ -1,3 +1,24 @@
+public struct Bit2 {
+    var bits: (Bit, Bit)
+}
+
+extension Bit2: BooleanLogic {
+    public func all() -> Bit {
+        return Bit.and(bits.0, bits.1)
+    }
+    
+    public static func nand(_ a: Bit2, _ b: Bit2) -> Bit2 {
+        Bit2(
+            bits: (
+                Bit.nand(a.bits.0, b.bits.0), 
+                Bit.nand(a.bits.1, b.bits.1)
+            )
+        )
+    }
+
+    public static var allOff: Bit2 { Bit2(bits: (.off, .off)) }
+}
+
 public struct Bit3 {
     var bits: (Bit, Bit, Bit)
     public func any() -> Bit {
@@ -35,43 +56,11 @@ extension Bit3: BooleanLogic, Mux {
     }
 }
 
-public struct Bit6 {
-    var bit3s: (Bit3, Bit3)
-}
 
-extension Bit6: BooleanLogic {
-    public static func nand(_ a: Bit6, _ b: Bit6) -> Bit6 {
-        Bit6(
-            bit3s: (
-                Bit3.nand(a.bit3s.0, b.bit3s.0),
-                Bit3.nand(a.bit3s.1, b.bit3s.1)
-            )
-        )
-    }
-    public static var allOff = Bit6(
-        bit3s: (.allOff, .allOff)
-    )
-}
-
-public struct Bit9 {
-    var bit3s: (Bit3, Bit3, Bit3)
-}
-
-extension Bit9: BooleanLogic {
-    public static func nand(_ a: Bit9, _ b: Bit9) -> Bit9 {
-        Bit9(
-            bit3s: (
-                Bit3.nand(a.bit3s.0, b.bit3s.0),
-                Bit3.nand(a.bit3s.1, b.bit3s.1),
-                Bit3.nand(a.bit3s.2, b.bit3s.2)
-            )
-        )
-    }
-    public static var allOff = Bit9(
-        bit3s: (.allOff, .allOff, .allOff)
-    )
-}
-
+public typealias Bit6 = (Bit3, Bit3)
+public typealias Bit9 = (Bit3, Bit3, Bit3)
+public typealias Bit12 = (Bit3, Bit3, Bit3, Bit3)
+public typealias Bit14 = (Bit, Bit, Bit3, Bit3, Bit3, Bit3)
 
 public struct Bit16 {
     var bits: (
@@ -82,7 +71,7 @@ public struct Bit16 {
     )
 }
 
-extension Bit16: BooleanLogic, Mux, Mux8 {
+extension Bit16: BooleanLogic, Mux, Mux4, Mux8 {
     public static func nand(_ a: Bit16, _ b: Bit16) -> Bit16 {
         Bit16(
             bits:(
@@ -131,6 +120,16 @@ extension Bit16: BooleanLogic, Mux, Mux8 {
                 Bit.mux(a.bits.14, b.bits.14, sel), Bit.mux(a.bits.15, b.bits.15, sel)
             )
             
+        )
+    }
+
+    public static func mux4(_ a: Bit16, _ b: Bit16, _ c: Bit16, _ d: Bit16, _ sel: Bit2) -> Bit16 {
+        Bit16.mux(
+          Bit16.mux(
+            Bit16.mux(
+              d, c, Bit2.xnor(Bit2(bits: (.on, .off)), sel).all()
+            ), b, Bit2.xnor(Bit2(bits: (.off, .on)), sel).all()
+          ), a, Bit2.xnor(Bit2(bits: (.off, .off)), sel).all()
         )
     }
 
