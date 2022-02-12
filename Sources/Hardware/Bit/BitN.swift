@@ -57,7 +57,44 @@ extension Bit3: BooleanLogic, Mux {
 }
 
 
-public typealias Bit6 = (Bit3, Bit3)
+public struct Bit6 {
+    var bit3s: (Bit3, Bit3)
+    init(bit3s: (Bit3, Bit3)) {
+        self.bit3s = bit3s
+    }
+    init(bits: (Bit, Bit, Bit, Bit, Bit, Bit)) {
+        bit3s = (
+            Bit3(bits: (bits.0, bits.1, bits.2)),
+            Bit3(bits: (bits.3, bits.4, bits.5))
+        )
+    }
+
+    public func any() -> Bit {
+        return Bit.or(bit3s.0.any(), bit3s.1.any())
+    }
+
+    public func all() -> Bit {
+        return Bit.and(bit3s.0.all(), bit3s.1.all())
+    }
+}
+
+extension Bit6: BooleanLogic {
+    public static func nand(_ a: Bit6, _ b: Bit6) -> Bit6 {
+        Bit6(
+            bit3s: (
+                Bit3.nand(a.bit3s.0, b.bit3s.0),
+                Bit3.nand(a.bit3s.1, b.bit3s.1)
+            )
+        )
+    }
+
+    public static var allOff: Bit6 { 
+        Bit6(
+            bit3s: (Bit3.allOff, Bit3.allOff)
+        )
+    }
+}
+
 public typealias Bit9 = (Bit3, Bit3, Bit3)
 public typealias Bit12 = (Bit3, Bit3, Bit3, Bit3)
 public typealias Bit13 = (Bit, Bit3, Bit3, Bit3, Bit3)

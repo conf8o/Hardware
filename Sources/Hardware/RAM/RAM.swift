@@ -30,8 +30,8 @@ public struct RAM64 {
 
     public mutating func access(_ a: Bit16, _ address: Bit6, _ load: Bit) -> Bit16 {
         // Bit6の上位3桁をRAM8用に、下位3桁をRegister用に。
-        let address8 = address.0
-        let addressR = address.1
+        let address8 = address.bit3s.0
+        let addressR = address.bit3s.1
         
         let loadBits = Bit.dmux8(load, address8)
         return Bit16.mux8(
@@ -58,7 +58,7 @@ public struct RAM512 {
 
     public mutating func access(_ a: Bit16, _ address: Bit9, _ load: Bit) -> Bit16 {
         let address64 = address.0
-        let addressInner = Bit6(address.1, address.2)
+        let addressInner = Bit6(bit3s: (address.1, address.2))
 
         let loadBits = Bit.dmux8(load, address64)
         return Bit16.mux8(
