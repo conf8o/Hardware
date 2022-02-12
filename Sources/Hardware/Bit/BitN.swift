@@ -60,7 +60,9 @@ extension Bit3: BooleanLogic, Mux {
 public typealias Bit6 = (Bit3, Bit3)
 public typealias Bit9 = (Bit3, Bit3, Bit3)
 public typealias Bit12 = (Bit3, Bit3, Bit3, Bit3)
+public typealias Bit13 = (Bit, Bit3, Bit3, Bit3, Bit3)
 public typealias Bit14 = (Bit, Bit, Bit3, Bit3, Bit3, Bit3)
+public typealias Bit15 = (Bit3, Bit3, Bit3, Bit3, Bit3)
 
 public struct Bit16 {
     var bits: (

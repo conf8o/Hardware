@@ -100,6 +100,24 @@ public struct RAM4k {
     }
 }
 
+public struct RAM8k {
+    private var memories = [
+        RAM4k(), RAM4k()
+    ]
+
+    public mutating func access(_ a: Bit16, _ address: Bit13, _ load: Bit) -> Bit16 {
+        let address4k = address.0
+        let addressInner = Bit12(address.1, address.2, address.3, address.4)
+
+        let loadBits = Bit.dmux(load, address4k)
+        return Bit16.mux(
+            memories[0].access(a, addressInner, loadBits.a),
+            memories[1].access(a, addressInner, loadBits.b),
+            address4k
+        )
+    }
+}
+
 public struct RAM16k {
     private var memories = [
         RAM4k(), RAM4k(), RAM4k(), RAM4k()
@@ -116,6 +134,26 @@ public struct RAM16k {
             memories[2].access(a, addressInner, loadBits.c),
             memories[3].access(a, addressInner, loadBits.d),
             address4k
+        )
+    }
+}
+
+public struct RAM32k {
+    private var memories = [
+        RAM16k(), RAM16k()
+    ]
+
+    public mutating func access(_ a: Bit16, _ address: Bit15, _ load: Bit) -> Bit16 {
+        let first3Bits = address.0.bits
+        let address16k = first3Bits.0
+        let addressInner = Bit14(first3Bits.1, first3Bits.2,
+                                 address.1, address.2, address.3, address.4)
+
+        let loadBits = Bit.dmux(load, address16k)
+        return Bit16.mux(
+            memories[0].access(a, addressInner, loadBits.a),
+            memories[1].access(a, addressInner, loadBits.b),
+            address16k
         )
     }
 }
