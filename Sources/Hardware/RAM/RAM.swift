@@ -144,16 +144,19 @@ public struct RAM32k {
     ]
 
     public mutating func access(_ a: Bit16, _ address: Bit15, _ load: Bit) -> Bit16 {
-        let first3Bits = address.0.bits
-        let address16k = first3Bits.0
-        let addressInner = Bit14(first3Bits.1, first3Bits.2,
-                                 address.1, address.2, address.3, address.4)
+        let addressInner = Bit14(
+            address.bits.1, address.bits.2,
+            Bit3(bits: (address.bits.3, address.bits.4, address.bits.5)),
+            Bit3(bits: (address.bits.6, address.bits.7, address.bits.8)),
+            Bit3(bits: (address.bits.9, address.bits.10, address.bits.11)),
+            Bit3(bits: (address.bits.12, address.bits.13, address.bits.14))
+        )
 
-        let loadBits = Bit.dmux(load, address16k)
+        let loadBits = Bit.dmux(load, address.bits.0)
         return Bit16.mux(
             memories[0].access(a, addressInner, loadBits.a),
             memories[1].access(a, addressInner, loadBits.b),
-            address16k
+            address.bits.0
         )
     }
 }

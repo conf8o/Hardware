@@ -99,7 +99,100 @@ public typealias Bit9 = (Bit3, Bit3, Bit3)
 public typealias Bit12 = (Bit3, Bit3, Bit3, Bit3)
 public typealias Bit13 = (Bit, Bit3, Bit3, Bit3, Bit3)
 public typealias Bit14 = (Bit, Bit, Bit3, Bit3, Bit3, Bit3)
-public typealias Bit15 = (Bit3, Bit3, Bit3, Bit3, Bit3)
+
+public struct Bit15 {
+    var bits: (
+        Bit, Bit, Bit,
+        Bit, Bit, Bit,
+        Bit, Bit, Bit,
+        Bit, Bit, Bit,
+        Bit, Bit, Bit
+    )
+}
+
+extension Bit15: BooleanLogic, Mux, Mux4, Mux8 {
+    public static func nand(_ a: Bit15, _ b: Bit15) -> Bit15 {
+        Bit15(
+            bits:(
+                Bit.nand(a.bits.0, b.bits.0),
+                Bit.nand(a.bits.1, b.bits.1),
+                Bit.nand(a.bits.2, b.bits.2),
+                Bit.nand(a.bits.3, b.bits.3),
+            
+                Bit.nand(a.bits.4, b.bits.4),
+                Bit.nand(a.bits.5, b.bits.5),
+                Bit.nand(a.bits.6, b.bits.6),
+                Bit.nand(a.bits.7, b.bits.7),
+            
+                Bit.nand(a.bits.8, b.bits.8),
+                Bit.nand(a.bits.9, b.bits.9),
+                Bit.nand(a.bits.10, b.bits.10),
+                Bit.nand(a.bits.11, b.bits.11),
+            
+                Bit.nand(a.bits.12, b.bits.12),
+                Bit.nand(a.bits.13, b.bits.13),
+                Bit.nand(a.bits.14, b.bits.14)
+            )
+        )
+    }
+    
+    public static var allOff = Bit15(
+        bits: (
+            .off, .off, .off, .off,
+            .off, .off, .off, .off,
+            .off, .off, .off, .off,
+            .off, .off, .off
+        )
+    )
+
+    public static func mux(_ a: Bit15, _ b: Bit15, _ sel: Bit) -> Bit15 {
+        Bit15(
+            bits: (
+                Bit.mux(a.bits.0, b.bits.0, sel), Bit.mux(a.bits.1, b.bits.1, sel),
+                Bit.mux(a.bits.2, b.bits.2, sel), Bit.mux(a.bits.3, b.bits.3, sel),
+                Bit.mux(a.bits.4, b.bits.4, sel), Bit.mux(a.bits.5, b.bits.5, sel),
+                Bit.mux(a.bits.6, b.bits.6, sel), Bit.mux(a.bits.7, b.bits.7, sel),
+                Bit.mux(a.bits.8, b.bits.8, sel), Bit.mux(a.bits.9, b.bits.9, sel),
+                Bit.mux(a.bits.10, b.bits.10, sel), Bit.mux(a.bits.11, b.bits.11, sel),
+                Bit.mux(a.bits.12, b.bits.12, sel), Bit.mux(a.bits.13, b.bits.13, sel),
+                Bit.mux(a.bits.14, b.bits.14, sel)
+            )
+            
+        )
+    }
+
+    public static func mux4(_ a: Bit15, _ b: Bit15, _ c: Bit15, _ d: Bit15, _ sel: Bit2) -> Bit15 {
+        Bit15.mux(
+          Bit15.mux(
+            Bit15.mux(
+              d, c, Bit2.xnor(Bit2(bits: (.on, .off)), sel).all()
+            ), b, Bit2.xnor(Bit2(bits: (.off, .on)), sel).all()
+          ), a, Bit2.xnor(Bit2(bits: (.off, .off)), sel).all()
+        )
+    }
+
+    public static func mux8(
+        _ a: Bit15, _ b: Bit15, _ c: Bit15, _ d: Bit15,
+        _ e: Bit15, _ f: Bit15, _ g: Bit15, _ h: Bit15,
+        _ sel: Bit3
+    ) -> Bit15 {
+        Bit15.mux(
+         Bit15.mux(
+          Bit15.mux(
+           Bit15.mux(
+            Bit15.mux(
+             Bit15.mux(
+              Bit15.mux(
+               h, g, Bit3.xnor(Bit3(bits: (.on, .on, .off)), sel).all()
+              ), f, Bit3.xnor(Bit3(bits: (.on, .off, .on)), sel).all()
+             ), e, Bit3.xnor(Bit3(bits: (.on, .off, .off)), sel).all()
+            ), d, Bit3.xnor(Bit3(bits: (.off, .on, .on)), sel).all()
+           ), c, Bit3.xnor(Bit3(bits: (.off, .on, .off)), sel).all()
+          ), b, Bit3.xnor(Bit3(bits: (.off, .off, .on)), sel).all()
+         ), a, Bit3.xnor(Bit3(bits: (.off, .off, .off)), sel).all()
+        )
+    }
+}
 
 public struct Bit16 {
     var bits: (
