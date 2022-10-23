@@ -1,6 +1,15 @@
 import XCTest
 @testable import Hardware
 
+extension Bit3: Equatable {
+    public static func == (lhs: Bit3, rhs: Bit3) -> Bool {
+        return lhs.bits.0 == rhs.bits.0 &&
+               lhs.bits.1 == rhs.bits.1 &&
+               lhs.bits.2 == rhs.bits.2
+    }
+}
+
+
 final class RegisterTests: XCTestCase {
     func testRegister() throws {
         var register = Register<Bit>()

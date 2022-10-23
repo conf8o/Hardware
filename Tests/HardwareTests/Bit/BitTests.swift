@@ -53,13 +53,37 @@ final class BitTests: XCTestCase {
     }
     
     func testDMux() throws {
-        XCTAssertEqual(Bit.dmux(0, 0).0, 0)
-        XCTAssertEqual(Bit.dmux(0, 0).1, 0)
-        XCTAssertEqual(Bit.dmux(0, 1).0, 0)
-        XCTAssertEqual(Bit.dmux(0, 1).1, 0)
-        XCTAssertEqual(Bit.dmux(1, 0).0, 1)
-        XCTAssertEqual(Bit.dmux(1, 0).1, 0)
-        XCTAssertEqual(Bit.dmux(1, 1).0, 0)
-        XCTAssertEqual(Bit.dmux(1, 1).1, 1)
+        XCTAssertEqual(0, Bit.dmux(0, 0).0)
+        XCTAssertEqual(0, Bit.dmux(0, 0).1)
+        XCTAssertEqual(0, Bit.dmux(0, 1).0)
+        XCTAssertEqual(0, Bit.dmux(0, 1).1)
+        XCTAssertEqual(1, Bit.dmux(1, 0).0)
+        XCTAssertEqual(0, Bit.dmux(1, 0).1)
+        XCTAssertEqual(0, Bit.dmux(1, 1).0)
+        XCTAssertEqual(1, Bit.dmux(1, 1).1)
     }
+
+    func testMux8() throws {
+
+        XCTAssertEqual(1, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (0, 0, 0))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (0, 0, 1))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (0, 1, 0))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (0, 1, 1))))
+        XCTAssertEqual(1, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (1, 0, 0))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (1, 0, 1))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (1, 1, 0))))
+        XCTAssertEqual(0, Bit.mux8(0, 0, 0, 1, 0, 0, 0, 1, Bit3(bits: (1, 1, 1))))
+    }
+
+    func testDMux8() throws {
+        let (a, b, c, d, e, f, g, h) = Bit.dmux8(.on, Bit3(bits: (.on, .off, .off)))
+        XCTAssertEqual(0, a)
+        XCTAssertEqual(0, b)
+        XCTAssertEqual(0, c)
+        XCTAssertEqual(0, d)
+        XCTAssertEqual(1, e)
+        XCTAssertEqual(0, f)
+        XCTAssertEqual(0, g)
+        XCTAssertEqual(0, h) 
+    }  
 }
