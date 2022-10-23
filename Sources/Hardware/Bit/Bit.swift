@@ -36,7 +36,27 @@ extension Bit: DMux4 {
     }
 }
 
-extension Bit: DMux8 {
+extension Bit: Mux8, DMux8 {
+    public static func mux8(_ a: Bit, _ b: Bit, _ c: Bit, _ d: Bit, _ e: Bit, _ f: Bit, _ g: Bit, _ h: Bit, _ sel: Bit3)
+    -> Bit
+    {
+        Bit.mux(
+         Bit.mux(
+          Bit.mux(
+           Bit.mux(
+            Bit.mux(
+             Bit.mux(
+              Bit.mux(
+               h, g, Bit3.xnor(Bit3(bits: (.on, .on, .off)), sel).all()
+              ), f, Bit3.xnor(Bit3(bits: (.on, .off, .on)), sel).all()
+             ), e, Bit3.xnor(Bit3(bits: (.on, .off, .off)), sel).all()
+            ), d, Bit3.xnor(Bit3(bits: (.off, .on, .on)), sel).all()
+           ), c, Bit3.xnor(Bit3(bits: (.off, .on, .off)), sel).all()
+          ), b, Bit3.xnor(Bit3(bits: (.off, .off, .on)), sel).all()
+         ), a, Bit3.xnor(Bit3(bits: (.off, .off, .off)), sel).all()
+        )
+    }
+    
     public static func dmux8(_ a: Bit, _ sel: Bit3) 
     -> (a: Bit, b: Bit, c: Bit, d: Bit, e: Bit, f: Bit, g: Bit, h: Bit)
     {

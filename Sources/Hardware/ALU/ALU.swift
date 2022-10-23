@@ -5,15 +5,15 @@ public enum ALU {
     }
     
     public static func call(
-        _ x: Bit16, _ y: Bit16,
-        _ zeroX: Bit, _ negX: Bit,
-        _ zeroY: Bit, _ negY: Bit,
-        _ f: Bit, // .on is "add", .off is "and"
-        _ negO: Bit
+        x: Bit16, y: Bit16,
+        zeroX: Bit, negX: Bit,
+        zeroY: Bit, negY: Bit,
+        f: Bit, // .off is "and", .on is "add"
+        negO: Bit
     ) -> (out: Bit16, zero: Bit, neg: Bit) {
         let _x = ALU.prepare(x, zeroX, negX)
         let _y = ALU.prepare(y, zeroY, negY)
-        var out = Bit16.mux(Adder16.add(_x, _y), Bit16.and(_x, _y), f)
+        var out = Bit16.mux(Bit16.add(_x, _y), Bit16.and(_x, _y), f)
         out = Bit16.mux(out, Bit16.not(out), negO)
         
         return (

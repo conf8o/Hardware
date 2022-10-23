@@ -6,7 +6,7 @@ public struct DFlipFlop<B: BooleanLogic> {
     }
 }
 
-public struct Register<B: BooleanLogic & Mux> {
+public struct Register<B: Mux> {
     private var load: Bit = .off
     private var flipflop = DFlipFlop<B>()
     private var out: B = .allOff
